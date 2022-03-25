@@ -65,7 +65,7 @@ readme-renderer==34.0
 requests==2.27.1
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
--e git+https://github.com/fuzzylearning/scallyshap.git@a779c7ed5ae64d4cc5892794f175a8c31f63aaf8#egg=scallyshap
+-e git+https://github.com/fuzzylearning/scallyshap.git@06395c56a197ed5e3fb303db78ca0c203b5d76f1#egg=scallyshap
 scipy==1.8.0
 six==1.16.0
 soupsieve==2.3.1
