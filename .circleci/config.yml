@@ -5,6 +5,23 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
+  test:
+    executor: python/default
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - python/install-packages:
+          pip-dependency-file: requirements_dev.txt
+          pkg-manager: pip
+      - python/install-packages:
+          args: pytest
+          pkg-manager: pip
+          pypi-cache: true
+      - run:
+          command: |
+            pytest --version
+          name: Test
   build:
     working_directory: ~/scallyshap
     docker:
@@ -13,24 +30,12 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run: python --version & pip3 install -r requirements_dev.txt & ls -a & python ./processor/add_numbers.py
-  test:
-    working_directory: ~/scallyshap
-    docker:
-      - image:  cimg/python:3.8
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-      - run: python --version & pip3 install -r requirements_dev.txt & pip list & ls -a & pip3 install pytest & python -m pytest --version
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+      - run: python --version & ls -a & python ./processor/add_numbers.py
 workflows:
   build_and_test:
     jobs:
+      - test
       - build
-      - test:
-          requires:
-            - build
+      requires:
+            - test
 
