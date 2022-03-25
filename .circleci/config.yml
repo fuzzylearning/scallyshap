@@ -22,7 +22,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run: python --version & pip3 install -r requirements_dev.txt & ls -a & python ./pytest & python -m pytest --cov=scallyshap tests/
+      - run: python --version & pip3 install -r requirements_dev.txt & ls -a & python pytest & python -m pytest --cov=scallyshap tests/
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
