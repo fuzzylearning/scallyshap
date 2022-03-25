@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["ipython>=6", "nbformat>=4", "nbconvert>=5", "requests>=2"]
+requirements = ["ipython>=6"]
 
 setup(
     name="scallyshap",
-    version="0.0.2",
+    version="0.0.3",
     author="Hossein Javedani Sadaei",
     author_email="h.javedani@gmail.com",
     description="SHAP feature selection for large scale projects",
