@@ -42,4 +42,4 @@ jobs:
       - run:
           name: Run build
           # This assumes pytest is installed via the install-package step above
-          command: python -m ~/scallyshap/main.py
+          command: ls -a & python -m ~/scallyshap/main.py
