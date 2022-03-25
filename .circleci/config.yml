@@ -32,10 +32,10 @@ jobs:
       - checkout
       - run: python --version & ls -a & python ./processor/add_numbers.py
 workflows:
-  build_and_test:
+  main:
     jobs:
       - test
       - build
       requires:
-            - test
+        - test
 
