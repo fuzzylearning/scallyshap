@@ -10,10 +10,12 @@ certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.0.4
 colorama==0.4.4
+coverage==6.3.2
 decorator==5.1.1
 defusedxml==0.7.1
 docutils==0.18.1
 entrypoints==0.4
+execnet==1.9.0
 executing==0.8.3
 idna==3.3
 importlib-metadata==4.11.3
@@ -35,6 +37,7 @@ nbclient==0.5.13
 nbconvert==6.4.4
 nbformat==5.2.0
 nest-asyncio==1.5.4
+numpy==1.22.3
 packaging==21.3
 pandocfilters==1.5.0
 parso==0.8.3
@@ -52,14 +55,16 @@ py==1.11.0
 Pygments==2.11.2
 pyparsing==3.0.7
 pyrsistent==0.18.1
-pytest==7.1.1
+pytest-forked==1.4.0
+pytest-xdist==2.5.0
 python-dateutil==2.8.2
 pyzmq==22.3.0
 readme-renderer==34.0
 requests==2.27.1
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
-scallyshap==0.0.3
+-e git+https://github.com/fuzzylearning/scallyshap.git@56cef0cfe785bef6f33179a28a3fd59d793e6b84#egg=scallyshap
+scipy==1.8.0
 six==1.16.0
 soupsieve==2.3.1
 stack-data==0.2.0
@@ -73,4 +78,5 @@ typing_extensions==4.1.1
 urllib3==1.26.9
 wcwidth==0.2.5
 webencodings==0.5.1
+xgboost==1.5.2
 zipp==3.7.0
