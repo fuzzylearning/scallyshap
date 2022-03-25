@@ -36,4 +36,4 @@ jobs:
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
-          command: pytest& ls -a & pwd & cd .. & ls -a & python -m /home/circleci/projec/main.py
+          command: pytest& ls -a & pwd & cd .. & ls -a & python -m /home/circleci/project/main.py
