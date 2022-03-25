@@ -40,4 +40,4 @@ jobs:
       - run:
           name: Run build
           # This assumes pytest is installed via the install-package step above
-          command: ls -a & python -m /home/circleci/project/main.py
+          command: ls -a & /home/circleci/.pyenv/versions/3.8.13/bin/python -m /home/circleci/project/main.py
