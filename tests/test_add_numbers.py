@@ -1,4 +1,3 @@
-import xgboost as xgb
 from processor.add_numbers import add_two_number
 
 
