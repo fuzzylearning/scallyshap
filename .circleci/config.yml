@@ -6,6 +6,9 @@ version: 2.1
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   test:
+    working_directory: ~/scallyshap
+    docker:
+      - image:  cimg/python:3.8
     executor: python/default
     steps:
       - checkout
