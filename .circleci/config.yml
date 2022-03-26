@@ -26,7 +26,7 @@ jobs:
             sudo apt-get install -y gnumeric
             cd data && curl -O 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
             ls -a
-            ssconvert default\ of\ credit\ card\ clients.xls data.csv
+            ssconvert default%20of%20credit%20card%20clients.xls data.csv
             cd /home/circleci/project/tests/
             ls -a
             pytest 
