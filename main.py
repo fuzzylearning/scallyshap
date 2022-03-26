@@ -2,7 +2,7 @@ import pandas as pd
 import xgboost
 from feature_selector.scally_feature_selector import ScallyFeatureSelector
 
-def print_main():
+def print_results():
     print('this is main : ')
 
     SFC = ScallyFeatureSelector()
@@ -22,5 +22,5 @@ def print_main():
 
 
 if __name__=='__main__':
-    print_main()
+    print_results()
 

@@ -35,4 +35,4 @@ jobs:
             cd /home/circleci/project/tests/
             ls -a
             pytest 
-            python -m main
+            python main.py
