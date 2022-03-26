@@ -32,7 +32,7 @@ jobs:
             grep -v "X1" data1.csv > data.csv
             echo 'this is ls -a after grep'
             ls -a 
-            # cd /home/circleci/project/tests/
+            cd /home/circleci/project/tests/
             ls -a
-            pytest test_scally_feature_selector.py
+            pytest 
             python -m main
