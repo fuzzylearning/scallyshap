@@ -1,7 +1,20 @@
+import pandas as pd
 import xgboost
+from feature_selector.scally_feature_selector import ScallyFeatureSelector
 
 def print_main():
     print('this is main')
+    SFC = ScallyFeatureSelector()
+    data = pd.read_csv('data/credit.csv')
+    print(data.head())
+    print(data.columns.to_list())
+    X = data.loc[:,data.columns!='default payment next month']
+    y = data.loc[:,data.columns=='default payment next month']
+
+    SFC.fit_transform(X,y)
+    XT=SFC.transform(X)
+    print(XT.columns.to_list())
+
     return True
 
 

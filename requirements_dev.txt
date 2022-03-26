@@ -24,6 +24,7 @@ iniconfig==1.1.1
 ipython==8.1.1
 jedi==0.18.1
 Jinja2==3.1.0
+joblib==1.1.0
 jsonschema==4.4.0
 jupyter-client==7.1.2
 jupyter-core==4.9.2
@@ -55,6 +56,7 @@ py==1.11.0
 Pygments==2.11.2
 pyparsing==3.0.7
 pyrsistent==0.18.1
+pytest==7.1.1
 pytest-forked==1.4.0
 pytest-xdist==2.5.0
 python-dateutil==2.8.2
@@ -63,12 +65,15 @@ readme-renderer==34.0
 requests==2.27.1
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
--e git+https://github.com/fuzzylearning/scallyshap.git@56cef0cfe785bef6f33179a28a3fd59d793e6b84#egg=scallyshap
+-e git+https://github.com/fuzzylearning/scallyshap.git@1d4a468aae081bd5b1b1d2e8c9e5259077828baf#egg=scallyshap
+scikit-learn==1.0.2
 scipy==1.8.0
 six==1.16.0
+sklearn==0.0
 soupsieve==2.3.1
 stack-data==0.2.0
 testpath==0.6.0
+threadpoolctl==3.1.0
 tomli==2.0.1
 tornado==6.1
 tqdm==4.63.1
