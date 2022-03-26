@@ -34,5 +34,5 @@ jobs:
             ls -a 
             # cd /home/circleci/project/tests/
             ls -a
-            pytest 
+            pytest test_scally_feature_selector.py
             python -m main
