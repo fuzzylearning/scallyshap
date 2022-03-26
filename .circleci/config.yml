@@ -29,7 +29,8 @@ jobs:
             ssconvert default%20of%20credit%20card%20clients.xls data.csv 
             echo 'this is ls -a'
             ls -a
-            sed -i '' 1d /home/circleci/project/data/data.csv
+            sed -i '' 1d data.csv
+            echo 'this is ls -a after sed'
             ls -a
             # cd /home/circleci/project/tests/
             ls -a
