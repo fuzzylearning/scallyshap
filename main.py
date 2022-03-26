@@ -5,7 +5,10 @@ from feature_selector.scally_feature_selector import ScallyFeatureSelector
 def print_main():
     print('this is main')
     SFC = ScallyFeatureSelector()
-    data = pd.read_csv('data/data.csv')
+    try:
+        data = pd.read_csv('data/data.csv')
+    except:
+        data = pd.read_csv('/home/circleci/project/data/data.csv')
     print(data.head())
     print(data.columns.to_list())
     X = data.loc[:,data.columns!='default payment next month']
