@@ -7,7 +7,11 @@ def test_scally_feature_selector():
     """Test feature scally selector add """
 
     SFC = ScallyFeatureSelector()
-    data = pd.read_csv('data/data.csv')
+    try:
+        data = pd.read_csv('data/data.csv')
+    except:
+        data = pd.read_csv('/home/circleci/project/data/data.csv')
+
     X = data.loc[:,data.columns!='default payment next month']
     y = data.loc[:,data.columns=='default payment next month']
     SFC.fit_transform(X,y)
