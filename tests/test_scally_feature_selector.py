@@ -4,7 +4,7 @@ from feature_selector.scally_feature_selector import ScallyFeatureSelector
 
 
 def test_scally_feature_selector():
-    """Test feature scally selector add"""
+    """Test feature scally selector add """
 
     SFC = ScallyFeatureSelector()
     data = pd.read_csv('data/credit.csv')
