@@ -27,7 +27,7 @@ jobs:
             cd data && curl -O 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
             ls -a
             ssconvert default%20of%20credit%20card%20clients.xls data.csv 
-            sed -i '' 1d /home/circleci/project/data.csv
+            sed -i '' 1d /home/circleci/project/data/data.csv
             ls -a
             # cd /home/circleci/project/tests/
             ls -a
