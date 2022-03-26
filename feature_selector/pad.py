@@ -1,24 +1,4 @@
 
-# from sklearn.base import BaseEstimator, TransformerMixin
-
-# class ScallyFeatureSelector(BaseEstimator, TransformerMixin):
-
-#     def __init__(self):
-
-#         self.config = None   
-#         self.final_list = None  
-
-#     def fit(self, X, y):
-
-#         cols = X.columns
-#         self.final_list = cols
-
-#         return self
-
-#     def transform(self, X):
-
-#         return  X[self.final_list]
-
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator
@@ -30,7 +10,7 @@ from sklearn.metrics import make_scorer
 
 import fasttreeshap
 
-class ScallyFeatureSelector(BaseEstimator, TransformerMixin):
+class Shap_parametric(BaseEstimator, TransformerMixin):
 
     def __init__(self,n_features,model,list_of_features):
 
@@ -39,9 +19,6 @@ class ScallyFeatureSelector(BaseEstimator, TransformerMixin):
         self.grid_search= None
         self.importance_df = None
         self.list_of_features= list_of_features
-        self.params = {
-            'max_depth':[3,4]
-        }
 
     def fit(self, X, y):
 
@@ -54,7 +31,7 @@ class ScallyFeatureSelector(BaseEstimator, TransformerMixin):
         
         self.grid_search.fit(X, y)
         best_estimator = self.grid_search.best_estimator_
-        shap_explainer = fasttreeshap.TreeExplainer(best_estimator, algorithm = "v0", n_jobs = -1)
+        shap_explainer = fasttreeshap.TreeExplainer(best_estimator, algorithm = "v0", n_jobs = n_jobs)
         shap_values_v0 = shap_explainer(X).values
         shap_values_v0.shape
         shap_values = shap_explainer.shap_values(X)
@@ -63,7 +40,6 @@ class ScallyFeatureSelector(BaseEstimator, TransformerMixin):
         self.importance_df = pd.DataFrame([X.columns.tolist(), shap_sum.tolist()]).T
         self.importance_df.columns = ['column_name', 'shap_importance']
         self.importance_df = self.importance_df.sort_values('shap_importance', ascending=False)
-        print(self.importance_df[0:self.n_features])
         num_feat = min([self.n_features,self.importance_df.shape[0]])
         self.selected_cols = self.importance_df['column_name'][0:num_feat].to_list()
 
@@ -72,5 +48,3 @@ class ScallyFeatureSelector(BaseEstimator, TransformerMixin):
     def transform(self, X):
 
         return  X[self.selected_cols]
-
-

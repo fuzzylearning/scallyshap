@@ -1,12 +1,15 @@
 import pandas as pd
 import numpy as np
+import xgboost
+from sklearn.model_selection import train_test_split
+
 from feature_selector.scally_feature_selector import ScallyFeatureSelector
 
 
 def test_scally_feature_selector():
     """Test feature scally selector add """
 
-    SFC = ScallyFeatureSelector()
+    SFC = ScallyFeatureSelector(n_features=4,model=xgboost.XGBClassifier(),list_of_features=[])
     try:
         data = pd.read_csv('data/data.csv')
     except:
@@ -14,8 +17,10 @@ def test_scally_feature_selector():
 
     X = data.loc[:,data.columns!='default payment next month']
     y = data.loc[:,data.columns=='default payment next month']
-    SFC.fit_transform(X,y)
-    XT=SFC.transform(X)
-    
-    assert XT.columns.to_list()==['ID', 'LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6', 'BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
+
+    SFC.fit_transform(X_train,y_train)
+    XT=SFC.transform(X_test)
+    assert XT.columns.to_list()==['PAY_0', 'LIMIT_BAL', 'BILL_AMT1', 'PAY_AMT2']
 
