@@ -9,6 +9,7 @@ build==0.7.0
 certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.0.4
+cloudpickle==2.0.0
 colorama==0.4.4
 coverage==6.3.2
 decorator==5.1.1
@@ -17,6 +18,7 @@ docutils==0.18.1
 entrypoints==0.4
 execnet==1.9.0
 executing==0.8.3
+fasttreeshap==0.1.1
 idna==3.3
 importlib-metadata==4.11.3
 importlib-resources==5.4.0
@@ -30,6 +32,7 @@ jupyter-client==7.1.2
 jupyter-core==4.9.2
 jupyterlab-pygments==0.1.2
 keyring==23.5.0
+llvmlite==0.38.0
 MarkupSafe==2.1.1
 matplotlib-inline==0.1.3
 mistune==0.8.4
@@ -38,7 +41,8 @@ nbclient==0.5.13
 nbconvert==6.4.4
 nbformat==5.2.0
 nest-asyncio==1.5.4
-numpy==1.22.3
+numba==0.55.1
+numpy==1.21.5
 packaging==21.3
 pandas==1.4.1
 pandocfilters==1.5.0
@@ -51,6 +55,7 @@ pkginfo==1.8.2
 platformdirs==2.5.1
 pluggy==1.0.0
 prompt-toolkit==3.0.28
+psutil==5.9.0
 ptyprocess==0.7.0
 pure-eval==0.2.2
 py==1.11.0
@@ -67,11 +72,13 @@ readme-renderer==34.0
 requests==2.27.1
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
--e git+https://github.com/fuzzylearning/scallyshap.git@4c60aa45636f92dd60f7db22b2b935973ede0893#egg=scallyshap
+-e git+https://github.com/fuzzylearning/scallyshap.git@d82dba2e1043d96e61b1fd1f7a05a9e7d48184d0#egg=scallyshap
 scikit-learn==1.0.2
 scipy==1.8.0
+shap==0.40.0
 six==1.16.0
 sklearn==0.0
+slicer==0.0.7
 soupsieve==2.3.1
 stack-data==0.2.0
 testpath==0.6.0
