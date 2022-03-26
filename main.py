@@ -3,7 +3,7 @@ import xgboost
 from feature_selector.scally_feature_selector import ScallyFeatureSelector
 
 def print_main():
-    print('this is main')
+    print('this is main : ')
     SFC = ScallyFeatureSelector()
     try:
         data = pd.read_csv('data/data.csv')
