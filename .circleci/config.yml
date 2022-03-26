@@ -28,7 +28,7 @@ jobs:
             ls -a
             ssconvert default%20of%20credit%20card%20clients.xls data.csv
             ls -a
-            cd /home/circleci/project/tests/
+            # cd /home/circleci/project/tests/
             ls -a
             pytest 
             python -m main
