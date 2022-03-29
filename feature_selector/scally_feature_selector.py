@@ -2,14 +2,25 @@ import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.model_selection import StratifiedKFold, train_test_split
 import shap
 from sklearn.metrics import f1_score
 from sklearn.metrics import make_scorer
 import xgboost
+import optuna
+from optuna.samplers import TPESampler
+from optuna.pruners import HyperbandPruner
 
 import fasttreeshap
+
+from utils.helper_funcs import (
+    _calc_best_estimator_grid_search,
+    _calc_best_estimator_optuna_univariate,
+    _calc_best_estimator_random_search,
+    _calc_metric_for_single_output_classification,
+    _trail_param_retrive,
+)
 
 
 class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
@@ -39,7 +50,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         n_features=5,
         estimator=None,
         estimator_params=None,
-        hyper_parameter_optimization_method="Optuna",
+        hyper_parameter_optimization_method="optuna",
         shap_version="v0",
         measure_of_accuracy=None,
         list_of_obligatory_features=[],
@@ -47,9 +58,15 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         cv=3,
         with_shap_summary_plot=False,
         with_shap_interaction_plot=False,
+        with_stratified=True,
         verbose=1,
         random_state=0,
         n_jobs=-1,
+        n_iter=10,
+        eval_metric="auc",
+        number_of_trials=100,
+        sampler=TPESampler(),
+        pruner=HyperbandPruner(),
     ):
 
         self.n_features = n_features
@@ -63,10 +80,19 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         self.cv = cv
         self.with_shap_summary_plot = with_shap_summary_plot
         self.with_shap_interaction_plot = with_shap_interaction_plot
+        self.with_stratified = with_stratified
         self.verbose = verbose
         self.random_state = random_state
         self.n_jobs = n_jobs
+        self.n_iter = n_iter
+        self.eval_metric = eval_metric
+        self.number_of_trials = number_of_trials
+        self.sampler = sampler
+        self.pruner = pruner
+
+        self.best_estimator = None
         self.importance_df = None
+        self.type_of_problem = None
 
     @property
     def n_features(self):
@@ -100,6 +126,32 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
 
             raise TypeError(f"{value.__class__.__name__} model is not supported yet")
         self._estimator = value
+
+    @property
+    def type_of_problem(self):
+        print("Getting value for type_of_problem")
+        return self._type_of_problem
+
+    @type_of_problem.setter
+    def type_of_problem(self):
+        print("Setting value for type_of_problem")
+        if self.estimator.__class__.__name__ in [
+            "XGBRegressor",
+            "RandomForestRegressor",
+            "CatBoostRegressor",
+        ]:
+            self._type_of_problem = "regression"
+        elif self.estimator.__class__.__name__ in [
+            "XGBClassifier",
+            "RandomForestClassifier",
+            "CatBoostClassifier",
+            "BalancedRandomForestClassifier",
+        ]:
+            self._type_of_problem = "classification"
+        else:
+            raise TypeError(
+                f"{self.estimator.__class__.__name__} model is not supported yet"
+            )
 
     @property
     def estimator_params(self):
@@ -208,6 +260,16 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         self._with_shap_interaction_plot = value
 
     @property
+    def with_stratified(self):
+        print("Getting value for with_stratified")
+        return self._with_stratified
+
+    @with_stratified.setter
+    def with_stratified(self, value):
+        print("Setting value for with_stratified")
+        self._with_stratified = value
+
+    @property
     def verbose(self):
         print("Getting value for verbose")
         return self._verbose
@@ -238,6 +300,56 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         self._n_jobs = value
 
     @property
+    def n_iter(self):
+        print("Getting value for n_iter")
+        return self._n_iter
+
+    @n_iter.setter
+    def n_iter(self, value):
+        print("Setting value for n_iter")
+        self._n_iter = value
+
+    @property
+    def eval_metric(self):
+        print("Getting value for eval_metric")
+        return self._eval_metric
+
+    @eval_metric.setter
+    def eval_metric(self, value):
+        print("Setting value for eval_metric")
+        self._eval_metric = value
+
+    @property
+    def number_of_trials(self):
+        print("Getting value for number_of_trials")
+        return self._number_of_trials
+
+    @number_of_trials.setter
+    def number_of_trials(self, value):
+        print("Setting value for number_of_trials")
+        self._number_of_trials = value
+
+    @property
+    def sampler(self):
+        print("Getting value for sampler")
+        return self._sampler
+
+    @sampler.setter
+    def sampler(self, value):
+        print("Setting value for sampler")
+        self._sampler = value
+
+    @property
+    def pruner(self):
+        print("Getting value for pruner")
+        return self._pruner
+
+    @pruner.setter
+    def pruner(self, value):
+        print("Setting value for pruner")
+        self._pruner = value
+
+    @property
     def importance_df(self):
         print("Getting value for importance_df")
         return self._importance_df
@@ -247,24 +359,62 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         print("Setting value for importance_df")
         self._importance_df = value
 
+    @property
+    def best_estimator(self):
+        print("Getting value for best_estimator")
+        return self._best_estimator
+
+    @best_estimator.setter
+    def best_estimator(self, value):
+        print("Setting value for best_estimator")
+        self._best_estimator = value
+
     def fit(self, X, y):
 
         self.cols = X.columns
+        if self.hyper_parameter_optimization_method.lower() == "grid":
+            self.best_estimator = _calc_best_estimator_grid_search(
+                X,
+                y,
+                self.estimator,
+                self.estimator_params,
+                self.measure_of_accuracy,
+                self.verbose,
+                self.n_jobs,
+                self.measure_of_accuracy,
+                self.cv,
+            )
+        if self.hyper_parameter_optimization_method.lower() == "random":
+            self.best_estimator = _calc_best_estimator_random_search(
+                X,
+                y,
+                self.estimator,
+                self.estimator_params,
+                self.measure_of_accuracy,
+                self.verbose,
+                self.n_jobs,
+                self.n_iter,
+                self.cv,
+            )
+        if self.hyper_parameter_optimization_method.lower() == "optuna":
+            self.best_estimator = _calc_best_estimator_optuna_univariate(
+                X,
+                y,
+                self.estimator,
+                self.measure_of_accuracy,
+                self.estimator_params,
+                self.verbose,
+                self.test_size,
+                self.random_state,
+                self.eval_metric,
+                self.number_of_trials,
+                self.sampler,
+                self.pruner,
+                self.with_stratified,
+            )
 
-        # train model with those setting comes from conf to select best feature in each cv
-        self.grid_search = GridSearchCV(
-            self.estimator,
-            param_grid=self.estimator_params,
-            cv=StratifiedKFold(n_splits=2, random_state=0, shuffle=True),
-            n_jobs=1,
-            scoring=make_scorer(f1_score),
-            verbose=0,
-        )
-
-        self.grid_search.fit(X, y)
-        best_estimator = self.grid_search.best_estimator_
         shap_explainer = fasttreeshap.TreeExplainer(
-            best_estimator, algorithm=self.shap_version, n_jobs=-1
+            self.best_estimator, algorithm=self.shap_version, n_jobs=self.n_jobs
         )
         shap_values_v0 = shap_explainer(X).values
         shap_values_v0.shape

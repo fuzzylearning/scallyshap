@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
 import xgboost
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import (
+    train_test_split,
+    KFold
+    )
 
 from feature_selector.scally_feature_selector import ScallyShapFeatureSelector
 
@@ -18,7 +21,7 @@ def test_scally_feature_selector():
         measure_of_accuracy=None,
         list_of_obligatory_features=[],
         test_size = 0.33,
-        cv=3,
+        cv=KFold(n_splits=2),
         with_shap_summary_plot=False,
         with_shap_interaction_plot=False,
         verbose = 1,

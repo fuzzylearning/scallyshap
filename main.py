@@ -4,6 +4,10 @@ from sklearn.ensemble import (
     RandomForestClassifier,
     RandomForestRegressor,
     )
+from sklearn.model_selection import (
+    train_test_split,
+    KFold
+    )
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from feature_selector.scally_feature_selector import ScallyShapFeatureSelector
@@ -11,15 +15,15 @@ def print_results():
     print('this is main : ')
     
     SFC = ScallyShapFeatureSelector(
-        n_features = 10,
+        n_features = 4,
         estimator=xgboost.XGBClassifier(),
         estimator_params={'max_depth':[4]},
-        hyper_parameter_optimization_method='Optuna',
+        hyper_parameter_optimization_method='random',
         shap_version="v0",
         measure_of_accuracy=None,
         list_of_obligatory_features=[],
         test_size = 0.33,
-        cv=3,
+        cv=KFold(n_splits=3),
         with_shap_summary_plot=False,
         with_shap_interaction_plot=False,
         verbose = 1,
