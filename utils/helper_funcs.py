@@ -235,7 +235,7 @@ def _calc_best_estimator_grid_search(
         cv=cv,
         n_jobs=n_jobs,
         scoring=make_scorer(measure_of_accuracy),
-        verbose=verbose,
+        verbose=verbose
     )
     grid_search.fit(X, y)
     best_estimator = grid_search.best_estimator_

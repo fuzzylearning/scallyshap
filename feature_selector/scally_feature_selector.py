@@ -381,7 +381,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
                 self.measure_of_accuracy,
                 self.verbose,
                 self.n_jobs,
-                self.cv,
+                self.cv
             )
         if self.hyper_parameter_optimization_method.lower() == "random":
             self.best_estimator = _calc_best_estimator_random_search(
