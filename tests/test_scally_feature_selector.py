@@ -69,6 +69,7 @@ def test_scally_feature_selector():
     #     number_of_trials=10,
     #     sampler=TPESampler(),
     #     pruner=HyperbandPruner(),
+    
     # )
 
     try:
