@@ -88,7 +88,6 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         self.number_of_trials = number_of_trials
         self.sampler = sampler
         self.pruner = pruner
-        
         self.best_estimator = None
         self.importance_df = None
 
