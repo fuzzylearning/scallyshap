@@ -41,6 +41,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         Number of features seen during :term:`fit`. Only defined if the
         underlying estimator exposes such an attribute when fit.
         .. versionadded:: 0.24
+        
     """
 
     def __init__(
@@ -119,7 +120,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
             "CatBoostClassifier",
             "CatBoostRegressor",
             "BalancedRandomForestClassifier",
-            
+
         ]:
 
             raise TypeError(f"{value.__class__.__name__} model is not supported yet")
