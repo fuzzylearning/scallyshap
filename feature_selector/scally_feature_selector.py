@@ -39,8 +39,8 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
     ----------
     n_features_in_ : int
         Number of features seen during :term:`fit`. Only defined if the
-        underlying estimator exposes such an attribute when fit.
-        .. versionadded:: 0.01
+        underlying estimator exposes such an attribute when fitted .
+        .. versionadded:: 0.1
 
     """
 
