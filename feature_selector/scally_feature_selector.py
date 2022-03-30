@@ -90,7 +90,6 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         
         self.best_estimator = None
         self.importance_df = None
-        self.type_of_problem = None
 
     @property
     def n_features(self):
@@ -124,34 +123,6 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
 
             raise TypeError(f"{value.__class__.__name__} model is not supported yet")
         self._estimator = value
-
-    @property
-    def type_of_problem(self):
-        print("Getting value for type_of_problem")
-        return self._type_of_problem
-
-    @type_of_problem.setter
-    def type_of_problem(self,value):
-        print("Setting value for type_of_problem")
-        if self.estimator.__class__.__name__ in [
-            "XGBRegressor",
-            "RandomForestRegressor",
-            "CatBoostRegressor",
-        ]:
-            value = "regression"
-            self._type_of_problem = value
-        elif self.estimator.__class__.__name__ in [
-            "XGBClassifier",
-            "RandomForestClassifier",
-            "CatBoostClassifier",
-            "BalancedRandomForestClassifier",
-        ]:
-            value = "classification"
-            self._type_of_problem = value
-        else:
-            raise TypeError(
-                f"{self.estimator.__class__.__name__} model is not supported yet"
-            )
 
     @property
     def estimator_params(self):

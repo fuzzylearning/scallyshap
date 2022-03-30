@@ -43,33 +43,33 @@ def test_scally_feature_selector():
         pruner=HyperbandPruner(),
     )
 
-    SFC_GRID = ScallyShapFeatureSelector(
-        n_features=4,
-        estimator=xgboost.XGBClassifier(),
-        estimator_params={
-            "max_depth": [4, 5],
-            "min_child_weight": [0.1, 0.9],
-            "gamma": [1, 9],
-            "booster": ["gbtree", "dart"],
-        },
-        hyper_parameter_optimization_method="grid",
-        shap_version="v0",
-        measure_of_accuracy="f1",
-        list_of_obligatory_features=[],
-        test_size=0.33,
-        cv=KFold(n_splits=3,random_state=42,shuffle=True),
-        with_shap_summary_plot=False,
-        with_shap_interaction_plot=False,
-        with_stratified=True,
-        verbose=3,
-        random_state=42,
-        n_jobs=-1,
-        n_iter=100,
-        eval_metric="auc",
-        number_of_trials=10,
-        sampler=TPESampler(),
-        pruner=HyperbandPruner(),
-    )
+    # SFC_GRID = ScallyShapFeatureSelector(
+    #     n_features=4,
+    #     estimator=xgboost.XGBClassifier(),
+    #     estimator_params={
+    #         "max_depth": [4, 5],
+    #         "min_child_weight": [0.1, 0.9],
+    #         "gamma": [1, 9],
+    #         "booster": ["gbtree", "dart"],
+    #     },
+    #     hyper_parameter_optimization_method="grid",
+    #     shap_version="v0",
+    #     measure_of_accuracy="f1",
+    #     list_of_obligatory_features=[],
+    #     test_size=0.33,
+    #     cv=KFold(n_splits=3,random_state=42,shuffle=True),
+    #     with_shap_summary_plot=False,
+    #     with_shap_interaction_plot=False,
+    #     with_stratified=True,
+    #     verbose=3,
+    #     random_state=42,
+    #     n_jobs=-1,
+    #     n_iter=100,
+    #     eval_metric="auc",
+    #     number_of_trials=10,
+    #     sampler=TPESampler(),
+    #     pruner=HyperbandPruner(),
+    # )
 
     try:
         data = pd.read_csv("data/data.csv")
