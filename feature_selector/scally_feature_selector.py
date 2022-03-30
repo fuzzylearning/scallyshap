@@ -119,6 +119,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
             "CatBoostClassifier",
             "CatBoostRegressor",
             "BalancedRandomForestClassifier",
+            
         ]:
 
             raise TypeError(f"{value.__class__.__name__} model is not supported yet")
