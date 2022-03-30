@@ -7,8 +7,6 @@ from sklearn.model_selection import StratifiedKFold, train_test_split
 import shap
 from sklearn.metrics import f1_score
 from sklearn.metrics import make_scorer
-import xgboost
-import optuna
 from optuna.samplers import TPESampler
 from optuna.pruners import HyperbandPruner
 
@@ -89,7 +87,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         self.number_of_trials = number_of_trials
         self.sampler = sampler
         self.pruner = pruner
-
+        
         self.best_estimator = None
         self.importance_df = None
         self.type_of_problem = None
@@ -133,21 +131,23 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
         return self._type_of_problem
 
     @type_of_problem.setter
-    def type_of_problem(self):
+    def type_of_problem(self,value):
         print("Setting value for type_of_problem")
         if self.estimator.__class__.__name__ in [
             "XGBRegressor",
             "RandomForestRegressor",
             "CatBoostRegressor",
         ]:
-            self._type_of_problem = "regression"
+            value = "regression"
+            self._type_of_problem = value
         elif self.estimator.__class__.__name__ in [
             "XGBClassifier",
             "RandomForestClassifier",
             "CatBoostClassifier",
             "BalancedRandomForestClassifier",
         ]:
-            self._type_of_problem = "classification"
+            value = "classification"
+            self._type_of_problem = value
         else:
             raise TypeError(
                 f"{self.estimator.__class__.__name__} model is not supported yet"
@@ -381,7 +381,6 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
                 self.measure_of_accuracy,
                 self.verbose,
                 self.n_jobs,
-                self.measure_of_accuracy,
                 self.cv,
             )
         if self.hyper_parameter_optimization_method.lower() == "random":

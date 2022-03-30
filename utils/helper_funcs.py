@@ -38,10 +38,16 @@ def _trail_param_retrive(trial, dict, keyword):
     .. versionadded:: 0.24
 
     """
+    if keyword=='max_depth' :
+        return trial.suggest_int(
+            keyword, min(dict[keyword]), max(dict[keyword]), log=True
+        )
+    else:
+        return trial.suggest_float(
+            keyword, min(dict[keyword]), max(dict[keyword]), log=True
+        )
 
-    return trial.suggest_float(
-        keyword, dict[keyword].min(), dict[keyword].max(), log=True
-    )
+
 
 
 def calc_metric_for_multi_outputs_classification(label, valid_y, preds, SCORE_TYPE):
@@ -297,15 +303,15 @@ def _calc_best_estimator_optuna_univariate(
 
     """
     if (
-        estimator.__class__.name == "XGBClassifier" and with_stratified
+        estimator.__class__.__name__ == "XGBClassifier" and with_stratified
     ):
         train_x, valid_x, train_y, valid_y = train_test_split(X, y, stratify=y[y.columns.to_list()[0]],test_size=test_size)
     if (
-        estimator.__class__.name == "XGBClassifier" and not with_stratified
+        estimator.__class__.__name__ == "XGBClassifier" and not with_stratified
     ):
         train_x, valid_x, train_y, valid_y = train_test_split(X, y,test_size=test_size,random_state=random_state)
     if (
-        estimator.__class__.name == "XGBRegressor" 
+        estimator.__class__.__name__ == "XGBRegressor" 
     ):
         train_x, valid_x, train_y, valid_y = train_test_split(X, y,test_size=test_size,random_state=random_state)
 
@@ -315,17 +321,19 @@ def _calc_best_estimator_optuna_univariate(
         dvalid = xgboost.DMatrix(valid_x, label=valid_y)
 
         if (
-            estimator.__class__.name == "XGBClassifier"
-            or estimator.__class__.name == "XGBRegressor"
+            estimator.__class__.__name__ == "XGBClassifier"
+            or estimator.__class__.__name__ == "XGBRegressor"
         ):
             param = {}
             param["verbosity"] = verbose
             param["eval_metric"] = eval_metric
             param["booster"] = trial.suggest_categorical("booster", ["gbtree"])
-            if valid_y.nunique() <= 2 and estimator.__class__.name == "XGBClassifier":
+            if valid_y.iloc[:,0].nunique() <= 2 and estimator.__class__.__name__ == "XGBClassifier":
                 param["objective"] = "binary:logistic"
-            if valid_y.nunique() <= 2 and estimator.__class__.name == "XGBRegressor":
+            if  estimator.__class__.__name__ == "XGBRegressor":
                 param["objective"] = "reg:squarederror"
+            
+
             if "lambda" in estimator_params.keys():
                 param["lambda"] = _trail_param_retrive(
                     trial, estimator_params, "lambda"
@@ -343,60 +351,68 @@ def _calc_best_estimator_optuna_univariate(
                 param["colsample_bytree"] = _trail_param_retrive(
                     trial, estimator_params, "colsample_bytree"
                 )
-            if estimator.__class__.name == "XGBClassifier":
+            if estimator.__class__.__name__ == "XGBClassifier":
                 if "scale_pos_weight" in estimator_params.keys():
                     param["scale_pos_weight"] = _trail_param_retrive(
                         trial, estimator_params, "scale_pos_weight"
                     )
-
-            if param["booster"] in ["gbtree", "dart"]:
-                # maximum depth of the tree, signifies complexity of the tree.
-                param["max_depth"] = _trail_param_retrive(
-                    trial, estimator_params, "max_depth"
-                )
-                # minimum child weight, larger the term more conservative the tree.
-                param["min_child_weight"] = _trail_param_retrive(
-                    trial, estimator_params, "min_child_weight"
-                )
-                param["eta"] = _trail_param_retrive(trial, estimator_params, "eta")
-                # defines how selective algorithm is.
-                param["gamma"] = _trail_param_retrive(trial, estimator_params, "gamma")
-                param["grow_policy"] = _trail_param_retrive(
-                    trial, estimator_params, "grow_policy"
-                )
-
-            if param["booster"] == "dart":
-                param["sample_type"] = _trail_param_retrive(
-                    trial, estimator_params, "sample_type"
-                )
-                param["normalize_type"] = _trail_param_retrive(
-                    trial, estimator_params, "normalize_type"
-                )
-                param["rate_drop"] = _trail_param_retrive(
-                    trial, estimator_params, "rate_drop"
-                )
-                param["skip_drop"] = _trail_param_retrive(
-                    trial, estimator_params, "skip_drop"
-                )
-
+            if "booster" in estimator_params.keys():
+                if param["booster"] in ["gbtree", "dart"]:
+                    # maximum depth of the tree, signifies complexity of the tree.
+                    if "max_depth" in estimator_params.keys():
+                        param["max_depth"] = _trail_param_retrive(
+                            trial, estimator_params, "max_depth"
+                        )
+                    if "min_child_weight" in estimator_params.keys():
+                        # minimum child weight, larger the term more conservative the tree.
+                        param["min_child_weight"] = _trail_param_retrive(
+                            trial, estimator_params, "min_child_weight"
+                        )
+                    if "eta" in estimator_params.keys():
+                        param["eta"] = _trail_param_retrive(trial, estimator_params, "eta")
+                    if "gamma" in estimator_params.keys():
+                        # defines how selective algorithm is.
+                        param["gamma"] = _trail_param_retrive(trial, estimator_params, "gamma")
+                    #if "grow_policy" in estimator_params.keys():
+                    #    param["grow_policy"] = _trail_param_retrive(
+                    #        trial, estimator_params, "grow_policy"
+                    #    )
+            if "booster" in estimator_params.keys():
+                if param["booster"] == "dart":
+                    if "sample_type" in estimator_params.keys():
+                        param["sample_type"] = _trail_param_retrive(
+                            trial, estimator_params, "sample_type"
+                        )
+                    if "normalize_type" in estimator_params.keys():
+                        param["normalize_type"] = _trail_param_retrive(
+                            trial, estimator_params, "normalize_type"
+                        )
+                    if "rate_drop" in estimator_params.keys():
+                        param["rate_drop"] = _trail_param_retrive(
+                            trial, estimator_params, "rate_drop"
+                        )
+                    if "skip_drop" in estimator_params.keys():
+                        param["skip_drop"] = _trail_param_retrive(
+                            trial, estimator_params, "skip_drop"
+                        )
             # Add a callback for pruning.
             pruning_callback = optuna.integration.XGBoostPruningCallback(
-                trial, "validation-" + eval_metric
+                trial, 'validation-' + eval_metric
             )
-            best_estimator = xgboost.train(
+            est = xgboost.train(
                 param,
                 dtrain,
                 evals=[(dvalid, "validation")],
                 callbacks=[pruning_callback],
             )
-            preds = best_estimator.predict(dvalid)
+            preds = est.predict(dvalid)
             pred_labels = np.rint(preds)
 
-            if "classifier" in estimator.__class__.name.lower():
+            if "classifier" in estimator.__class__.__name__.lower():
                 accr = _calc_metric_for_single_output_classification(
                     valid_y, pred_labels, measure_of_accuracy
                 )
-            if "regressor" in estimator.__class__.name.lower():
+            if "regressor" in estimator.__class__.__name__.lower():
                 accr = _calc_metric_for_single_output_regression(
                     valid_y, pred_labels, measure_of_accuracy
                 )
@@ -406,7 +422,14 @@ def _calc_best_estimator_optuna_univariate(
     study = optuna.create_study(direction="maximize", sampler=sampler, pruner=pruner)
     study.optimize(objective, n_trials=number_of_trials, timeout=600)
     trial = study.best_trial
-    best_estimator = estimator(**trial.params)
-    best_estimator.fit(X, y)
+    dtrain = xgboost.DMatrix(train_x, label=train_y)
+    dvalid = xgboost.DMatrix(valid_x, label=valid_y)
+    print(trial.params)
+
+    best_estimator = xgboost.train(
+                trial.params,
+                dtrain,
+                evals=[(dvalid, "validation")],
+            )
 
     return best_estimator

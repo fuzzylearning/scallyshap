@@ -90,7 +90,7 @@ readme-renderer==34.0
 requests==2.27.1
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
--e git+https://github.com/fuzzylearning/scallyshap.git@92670529b40396da7c53e4b0d837581c53e77c00#egg=scallyshap
+-e git+https://github.com/fuzzylearning/scallyshap.git@e9d1b5238df2cbdfdbf76f347da2d670f5dd14ca#egg=scallyshap
 scikit-learn==1.0.2
 scipy==1.8.0
 shap==0.40.0
