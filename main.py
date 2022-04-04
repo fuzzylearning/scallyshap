@@ -90,7 +90,7 @@ def print_results():
 
     #SFC_GRID.fit_transform(X_train, y_train)
     #XT_GRID = SFC_GRID.transform(X_test)
-    #print(XT_GRID.columns.to_list())
+    print(XT_OPTUNA.columns.to_list())
 
     return True
 
