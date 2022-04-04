@@ -1,26 +1,28 @@
-import xgboost
-import optuna
 import numpy as np
+import optuna
+import xgboost
 from sklearn.metrics import (
-    make_scorer,
-    precision_score,
-    recall_score,
-    f1_score,
     accuracy_score,
     confusion_matrix,
-    roc_auc_score,
-    r2_score,
     explained_variance_score,
+    f1_score,
+    make_scorer,
     max_error,
     mean_absolute_error,
+    mean_absolute_percentage_error,
     mean_squared_error,
     median_absolute_error,
-    mean_absolute_percentage_error,
+    precision_score,
+    r2_score,
+    recall_score,
+    roc_auc_score,
 )
-
-from sklearn.model_selection import StratifiedKFold, train_test_split
-
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.model_selection import (
+    GridSearchCV,
+    RandomizedSearchCV,
+    StratifiedKFold,
+    train_test_split,
+)
 
 
 def _trail_param_retrive(trial, dict, keyword):
@@ -38,7 +40,7 @@ def _trail_param_retrive(trial, dict, keyword):
     .. versionadded:: 0.24
 
     """
-    if keyword=='max_depth' :
+    if keyword == "max_depth":
         return trial.suggest_int(
             keyword, min(dict[keyword]), max(dict[keyword]), log=True
         )
@@ -46,8 +48,6 @@ def _trail_param_retrive(trial, dict, keyword):
         return trial.suggest_float(
             keyword, min(dict[keyword]), max(dict[keyword]), log=True
         )
-
-
 
 
 def calc_metric_for_multi_outputs_classification(label, valid_y, preds, SCORE_TYPE):
@@ -235,7 +235,7 @@ def _calc_best_estimator_grid_search(
         cv=cv,
         n_jobs=n_jobs,
         scoring=make_scorer(measure_of_accuracy),
-        verbose=verbose
+        verbose=verbose,
     )
     grid_search.fit(X, y)
     best_estimator = grid_search.best_estimator_
@@ -243,13 +243,7 @@ def _calc_best_estimator_grid_search(
 
 
 def _calc_best_estimator_random_search(
-    X, y, estimator,
-     estimator_params, 
-     measure_of_accuracy,
-      verbose, 
-      n_jobs, 
-      n_iter, 
-      cv
+    X, y, estimator, estimator_params, measure_of_accuracy, verbose, n_jobs, n_iter, cv
 ):
     """Function for calculating best estimator
     Parameters
@@ -291,7 +285,7 @@ def _calc_best_estimator_optuna_univariate(
     number_of_trials,
     sampler,
     pruner,
-    with_stratified
+    with_stratified,
 ):
     """Function for calculating best estimator
     Parameters
@@ -307,18 +301,18 @@ def _calc_best_estimator_optuna_univariate(
     .. versionadded:: 0.24
 
     """
-    if (
-        estimator.__class__.__name__ == "XGBClassifier" and with_stratified
-    ):
-        train_x, valid_x, train_y, valid_y = train_test_split(X, y, stratify=y[y.columns.to_list()[0]],test_size=test_size)
-    if (
-        estimator.__class__.__name__ == "XGBClassifier" and not with_stratified
-    ):
-        train_x, valid_x, train_y, valid_y = train_test_split(X, y,test_size=test_size,random_state=random_state)
-    if (
-        estimator.__class__.__name__ == "XGBRegressor" 
-    ):
-        train_x, valid_x, train_y, valid_y = train_test_split(X, y,test_size=test_size,random_state=random_state)
+    if estimator.__class__.__name__ == "XGBClassifier" and with_stratified:
+        train_x, valid_x, train_y, valid_y = train_test_split(
+            X, y, stratify=y[y.columns.to_list()[0]], test_size=test_size
+        )
+    if estimator.__class__.__name__ == "XGBClassifier" and not with_stratified:
+        train_x, valid_x, train_y, valid_y = train_test_split(
+            X, y, test_size=test_size, random_state=random_state
+        )
+    if estimator.__class__.__name__ == "XGBRegressor":
+        train_x, valid_x, train_y, valid_y = train_test_split(
+            X, y, test_size=test_size, random_state=random_state
+        )
 
     def objective(trial):
 
@@ -333,11 +327,13 @@ def _calc_best_estimator_optuna_univariate(
             param["verbosity"] = verbose
             param["eval_metric"] = eval_metric
             param["booster"] = trial.suggest_categorical("booster", ["gbtree"])
-            if valid_y.iloc[:,0].nunique() <= 2 and estimator.__class__.__name__ == "XGBClassifier":
+            if (
+                valid_y.iloc[:, 0].nunique() <= 2
+                and estimator.__class__.__name__ == "XGBClassifier"
+            ):
                 param["objective"] = "binary:logistic"
-            if  estimator.__class__.__name__ == "XGBRegressor":
+            if estimator.__class__.__name__ == "XGBRegressor":
                 param["objective"] = "reg:squarederror"
-            
 
             if "lambda" in estimator_params.keys():
                 param["lambda"] = _trail_param_retrive(
@@ -374,11 +370,15 @@ def _calc_best_estimator_optuna_univariate(
                             trial, estimator_params, "min_child_weight"
                         )
                     if "eta" in estimator_params.keys():
-                        param["eta"] = _trail_param_retrive(trial, estimator_params, "eta")
+                        param["eta"] = _trail_param_retrive(
+                            trial, estimator_params, "eta"
+                        )
                     if "gamma" in estimator_params.keys():
                         # defines how selective algorithm is.
-                        param["gamma"] = _trail_param_retrive(trial, estimator_params, "gamma")
-                    #if "grow_policy" in estimator_params.keys():
+                        param["gamma"] = _trail_param_retrive(
+                            trial, estimator_params, "gamma"
+                        )
+                    # if "grow_policy" in estimator_params.keys():
                     #    param["grow_policy"] = _trail_param_retrive(
                     #        trial, estimator_params, "grow_policy"
                     #    )
@@ -402,7 +402,7 @@ def _calc_best_estimator_optuna_univariate(
                         )
             # Add a callback for pruning.
             pruning_callback = optuna.integration.XGBoostPruningCallback(
-                trial, 'validation-' + eval_metric
+                trial, "validation-" + eval_metric
             )
             est = xgboost.train(
                 param,
@@ -432,9 +432,9 @@ def _calc_best_estimator_optuna_univariate(
     print(trial.params)
 
     best_estimator = xgboost.train(
-                trial.params,
-                dtrain,
-                evals=[(dvalid, "validation")],
-            )
+        trial.params,
+        dtrain,
+        evals=[(dvalid, "validation")],
+    )
 
     return best_estimator

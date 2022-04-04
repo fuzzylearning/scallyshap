@@ -1,23 +1,15 @@
+import fasttreeshap
 import numpy as np
 import pandas as pd
-from sklearn.base import BaseEstimator
-from sklearn.base import TransformerMixin
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.model_selection import StratifiedKFold, train_test_split
 import shap
-from sklearn.metrics import f1_score
-from sklearn.metrics import make_scorer
-from optuna.samplers import TPESampler
 from optuna.pruners import HyperbandPruner
-
-import fasttreeshap
+from optuna.samplers import TPESampler
+from sklearn.base import BaseEstimator, TransformerMixin
 
 from utils.helper_funcs import (
     _calc_best_estimator_grid_search,
     _calc_best_estimator_optuna_univariate,
     _calc_best_estimator_random_search,
-    _calc_metric_for_single_output_classification,
-    _trail_param_retrive,
 )
 
 
@@ -119,7 +111,6 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
             "CatBoostClassifier",
             "CatBoostRegressor",
             "BalancedRandomForestClassifier",
-
         ]:
 
             raise TypeError(f"{value.__class__.__name__} model is not supported yet")
@@ -139,7 +130,8 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
             self._estimator_params = value
         else:
             raise TypeError(
-                f"error occures during parameter checking for {value.__class__.__name__}"
+                f"error occures during parameter checking for \
+                    {value.__class__.__name__}"
             )
 
     @property
@@ -158,7 +150,8 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
             self._hyper_parameter_optimization_method = value
         else:
             raise ValueError(
-                f"error occures during selecting optimization_method, {value} is not supported."
+                f"error occures during selecting optimization_method, {value} is \
+                     not supported."
             )
 
     @property
@@ -353,7 +346,7 @@ class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):
                 self.measure_of_accuracy,
                 self.verbose,
                 self.n_jobs,
-                self.cv
+                self.cv,
             )
         if self.hyper_parameter_optimization_method.lower() == "random":
             self.best_estimator = _calc_best_estimator_random_search(

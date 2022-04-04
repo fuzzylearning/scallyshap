@@ -1,19 +1,15 @@
-from optuna.samplers._tpe.sampler import TPESampler
-from optuna.pruners import HyperbandPruner
-
-import pandas as pd
 import numpy as np
+import pandas as pd
 import xgboost
-from sklearn.model_selection import (
-    train_test_split,
-    KFold
-    )
+from optuna.pruners import HyperbandPruner
+from optuna.samplers._tpe.sampler import TPESampler
+from sklearn.model_selection import KFold, train_test_split
 
 from feature_selector.scally_feature_selector import ScallyShapFeatureSelector
 
 
 def test_scally_feature_selector():
-    """Test feature scally selector add """
+    """Test feature scally selector add"""
 
     SFC_OPTUNA = ScallyShapFeatureSelector(
         n_features=4,
@@ -29,7 +25,7 @@ def test_scally_feature_selector():
         measure_of_accuracy="f1",
         list_of_obligatory_features=[],
         test_size=0.33,
-        cv=KFold(n_splits=3,random_state=42,shuffle=True),
+        cv=KFold(n_splits=3, random_state=42, shuffle=True),
         with_shap_summary_plot=False,
         with_shap_interaction_plot=False,
         with_stratified=True,
@@ -69,7 +65,7 @@ def test_scally_feature_selector():
     #     number_of_trials=10,
     #     sampler=TPESampler(),
     #     pruner=HyperbandPruner(),
-    
+
     # )
 
     try:
@@ -88,9 +84,7 @@ def test_scally_feature_selector():
     SFC_OPTUNA.fit_transform(X_train, y_train)
     XT_OPTUNA = SFC_OPTUNA.transform(X_test)
 
-    #SFC_GRID.fit_transform(X_train, y_train)
-    #XT_GRID = SFC_GRID.transform(X_test)
-    #assert len(XT_GRID.columns.to_list())==4#['PAY_0', 'LIMIT_BAL', 'PAY_AMT2', 'BILL_AMT1']
-    assert len(XT_OPTUNA.columns.to_list())==4
-
-
+    # SFC_GRID.fit_transform(X_train, y_train)
+    # XT_GRID = SFC_GRID.transform(X_test)
+    # assert len(XT_GRID.columns.to_list())==4#['PAY_0', 'LIMIT_BAL', 'PAY_AMT2', 'BILL_AMT1']
+    assert len(XT_OPTUNA.columns.to_list()) == 4

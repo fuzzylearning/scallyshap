@@ -1,20 +1,16 @@
 import pandas as pd
 import xgboost
-from sklearn.ensemble import (
-    RandomForestClassifier,
-    RandomForestRegressor,
-)
-from sklearn.model_selection import train_test_split, KFold
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from feature_selector.scally_feature_selector import ScallyShapFeatureSelector
-from optuna.samplers import TPESampler
 from optuna.pruners import HyperbandPruner
+from optuna.samplers import TPESampler
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import KFold, train_test_split
+
+from feature_selector.scally_feature_selector import ScallyShapFeatureSelector
 
 
 def print_results():
     print("this is main : ")
-
 
     SFC_OPTUNA = ScallyShapFeatureSelector(
         n_features=4,
@@ -30,7 +26,7 @@ def print_results():
         measure_of_accuracy="f1",
         list_of_obligatory_features=[],
         test_size=0.33,
-        cv=KFold(n_splits=3,random_state=42,shuffle=True),
+        cv=KFold(n_splits=3, random_state=42, shuffle=True),
         with_shap_summary_plot=False,
         with_shap_interaction_plot=False,
         with_stratified=True,
@@ -88,8 +84,8 @@ def print_results():
     SFC_OPTUNA.fit_transform(X_train, y_train)
     XT_OPTUNA = SFC_OPTUNA.transform(X_test)
 
-    #SFC_GRID.fit_transform(X_train, y_train)
-    #XT_GRID = SFC_GRID.transform(X_test)
+    # SFC_GRID.fit_transform(X_train, y_train)
+    # XT_GRID = SFC_GRID.transform(X_test)
     print(XT_OPTUNA.columns.to_list())
 
     return True
