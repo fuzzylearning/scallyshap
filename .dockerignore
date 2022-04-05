@@ -1,0 +1,18 @@
+# comment
+*/temp*
+*/*/temp*
+temp?
+dist/*
+build/*
+.vscode/*
+.pytest_cache/*
+.env/*
+logs/
+.gits
+*.md
+.cache
+.tox
+data/*
+/data/*
+**/data
+*/data

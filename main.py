@@ -71,7 +71,7 @@ def print_results():
     try:
         data = pd.read_csv("data/data.csv")
     except:
-        data = pd.read_csv("/home/circleci/project/data/data.csv")
+        data = pd.read_csv("/opt/scallshap/data/data.csv")
     print(data.columns.to_list())
 
     X = data.loc[:, data.columns != "default payment next month"]
