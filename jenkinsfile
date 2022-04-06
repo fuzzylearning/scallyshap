@@ -1,7 +1,14 @@
 pipeline {
     agent any
 
+    tools {
+
+        pip
+
+    }
+
     stages {
+        
         stage("build"){
 
             steps {
@@ -18,13 +25,25 @@ pipeline {
                 
             }
 
-        }
+    
         stage("deploy"){
 
             steps {
                 echo 'deploying scallyshap appication...'
                 
             }
+
+        }
+    }
+
+    post{
+        always {
+
+        }
+        success {
+
+        }
+        failure {
 
         }
     }

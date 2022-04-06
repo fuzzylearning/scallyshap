@@ -1,5 +1,5 @@
 # scallyshap
 SHAP feature selection for large scale projects
-test ravic ci
+ci/cd with Jenkins
 test on my branch
 
