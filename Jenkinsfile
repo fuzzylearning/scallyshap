@@ -1,20 +1,20 @@
 pipeline {
-    agent any
+    agent none
 
-    tools {
-
-        pip
-        mvn
-
-    }
 
     stages {
         
-        stage("build"){
+        stage("Download-data"){
+
+            agent {
+                docker{
+                    image 'ubuntu'
+                }
+            }
 
             steps {
 
-                echo 'building scallyshap appication...'
+                sh 'apt-get install -y gnumeric'
 
             }
 
