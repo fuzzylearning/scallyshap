@@ -18,8 +18,8 @@ pipeline {
                                                 sh 'rm -rf dist'
                                                 sh 'sudo -H pip3 install setuptools '
                                                 sh 'sudo -H pip3 install pip install twine '
-                                                sh 'python setup.py sdist'
-                                                sh 'twine upload dist/* -u=${username} -p=${password}'
+                                                sh 'sudo -H python setup.py sdist'
+                                                sh 'sudo -H twine upload dist/* -u=${username} -p=${password}'
 
                                                 }
                             }
