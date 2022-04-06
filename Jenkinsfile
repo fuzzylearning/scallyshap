@@ -14,7 +14,7 @@ pipeline {
 
             steps {
 
-                sh 'su -'
+                sh 'root'
                 sh 'echo hi from docker 2'
                 sh "adduser --disabled-password --gecos '' user"
                 sh 'apt-get update -y'
