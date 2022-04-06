@@ -15,6 +15,8 @@ pipeline {
             steps {
 
                 sh 'echo hi from docker'
+                sh 'echo hi from docker 2'
+
 
 
             }
