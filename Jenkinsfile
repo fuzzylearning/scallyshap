@@ -16,8 +16,8 @@ pipeline {
                                             ]) {
 
                                                 sh 'rm -rf dist'
-                                                sh 'pip install setuptools'
-                                                sh 'pip install pip install twine'
+                                                sh 'pip3 install setuptools --user'
+                                                sh 'pip3 install pip install twine --user'
                                                 sh 'python setup.py sdist'
                                                 sh 'twine upload dist/* -u=${username} -p=${password}'
 
