@@ -50,6 +50,8 @@ pipeline {
 
     post {
         // Clean after build
+        agent any
+
         always {
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
