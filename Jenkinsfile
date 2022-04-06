@@ -21,6 +21,7 @@ pipeline {
                      }
             
                 }
+        }
 
         stage("Download-data-build-test"){
 
