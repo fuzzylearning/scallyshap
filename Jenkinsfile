@@ -4,7 +4,9 @@ pipeline {
 
     stages {
         stage("publish-pypi") {
-            agent any
+            agent {
+                    docker { image 'python' }
+                }
             steps {
                     script {
                             withCredentials([
