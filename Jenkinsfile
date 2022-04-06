@@ -8,13 +8,14 @@ pipeline {
 
             agent {
                 docker{
-                    image 'ubuntu'
+                    image 'debian'
                 }
             }
 
             steps {
 
-                sh 'apt-get install -y gnumeric'
+                sh 'apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* && apt-get install -y gnumeric'
+
 
             }
 
