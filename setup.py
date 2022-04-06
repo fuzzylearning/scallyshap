@@ -7,7 +7,7 @@ requirements = ["ipython>=6"]
 
 setup(
     name="scallyshap",
-    version="0.0.3",
+    version="0.0.7",
     author="Hossein Javedani Sadaei",
     author_email="h.javedani@gmail.com",
     description="SHAP feature selection for large scale projects",

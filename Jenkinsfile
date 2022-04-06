@@ -14,8 +14,11 @@ pipeline {
                             usernameVariable: 'username',
                             passwordVariable: 'password')
                                             ]) {
-                                                sh 'python -m build'
+
+                                                sh 'rm -rf dist'
+                                                sh 'pip install setuptools'
                                                 sh 'pip install pip install twine'
+                                                sh 'python setup.py sdist'
                                                 sh 'twine upload dist/* -u=${username} -p=${password}'
 
                                                 }
