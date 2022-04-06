@@ -14,7 +14,7 @@ pipeline {
 
             steps {
 
-                sh 'apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* && apt-get install -y gnumeric'
+                sh 'adduser --disabled-password --gecos '' user && apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* && apt-get install -y gnumeric'
 
 
             }
