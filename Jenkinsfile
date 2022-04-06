@@ -21,21 +21,21 @@ pipeline {
                 }
         }
 
-        stage("Download-data-build-test"){
+        // stage("Download-data-build-test"){
 
-            agent {
-                dockerfile true
-            }
+        //     agent {
+        //         dockerfile true
+        //     }
 
-            steps {
+        //     steps {
 
-                        sh 'echo hi from docker 2'
-                        sh './run.sh'
+        //                 sh 'echo hi from docker 2'
+        //                 sh './run.sh'
 
 
-            }
+        //     }
 
-        }
+        // }
 
         
         
