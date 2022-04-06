@@ -16,6 +16,8 @@ pipeline {
 
                 sh 'echo hi from docker'
                 sh 'echo hi from docker 2'
+                sh "adduser --disabled-password --gecos '' user"
+                sh 'apt-get update -y'
 
 
 
