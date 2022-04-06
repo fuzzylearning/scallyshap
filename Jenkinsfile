@@ -19,33 +19,7 @@ pipeline {
             }
 
         }
-        stage("test"){
-
-            steps {
-                echo 'testing scallyshap appication...'
-                
-            }
-
-    
-        stage("deploy"){
-
-            steps {
-                echo 'deploying scallyshap appication...'
-                
-            }
-
-        }
+        
     }
 
-    post{
-        always {
-
-        }
-        success {
-
-        }
-        failure {
-
-        }
-    }
 }
