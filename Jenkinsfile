@@ -4,7 +4,7 @@ pipeline {
 
     stages {
         
-        stage("Download-data"){
+        stage("Download-data-build-test"){
 
             agent {
                 dockerfile true
@@ -13,6 +13,7 @@ pipeline {
             steps {
 
                 sh 'echo hi from docker 2'
+                sh './run.sh'
 
             }
 

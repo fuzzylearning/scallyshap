@@ -1,3 +1,4 @@
 #!/bin/bash
 
-python main.py
+tox
+#python main.py
