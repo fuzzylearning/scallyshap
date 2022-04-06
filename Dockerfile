@@ -21,6 +21,7 @@ RUN mkdir /opt/scallshap/data &&\
     ssconvert default%20of%20credit%20card%20clients.xls data1.csv &&\
     grep -v "X1" data1.csv > data.csv
 RUN cd /opt/scallshap/
+RUN pip install -U pytest
 RUN pip install -r /opt/scallshap/requirements_dev.txt
 
 USER user
