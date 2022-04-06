@@ -9,12 +9,12 @@ WORKDIR /opt/scallshap
 # Install requirements, including from Gemfury
 ADD ./ /opt/scallshap
 RUN apt-get update -y
+RUN apt-get install -y gnumeric 
 
 RUN chmod +x /opt/scallshap/download_data.sh
 RUN chmod +x /opt/scallshap/run.sh
 RUN chown -R user:user ./
 
-RUN apt-get install -y gnumeric 
 RUN mkdir /opt/scallshap/data &&\
     cd /opt/scallshap/data &&\
     curl -O 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls' &&\
