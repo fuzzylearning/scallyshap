@@ -12,9 +12,10 @@ pipeline {
                             usernameVariable: 'username',
                             passwordVariable: 'password')
                                             ]) {
-                                                print 'username=' + username + 'password=' + password
-                                                print 'username.collect { it }=' + username.collect { it }
-                                                print 'password.collect { it }=' + password.collect { it }
+                                                sh 'python -m build'
+                                                sh 'pip install pip install twine'
+                                                sh 'twine upload dist/* -u=${username} -p=${password}'
+
                                                 }
                             }
             
