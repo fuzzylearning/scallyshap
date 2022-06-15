@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import KFold, train_test_split
 
-from feature_selector.scally_feature_selector import ScallyShapFeatureSelector
+from scallyshap.src.feature_selector.scally_feature_selector import ScallyShapFeatureSelector
 
 
 def print_results():
@@ -69,7 +69,7 @@ def print_results():
     # )
 
     try:
-        data = pd.read_csv("data/data.csv")
+        data = pd.read_csv("./scallyshap/src/data/data.csv")
     except:
         data = pd.read_csv("/opt/scallshap/data/data.csv")
     print(data.columns.to_list())
