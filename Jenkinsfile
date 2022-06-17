@@ -1,64 +1,90 @@
-pipeline {
-    agent none
+// pipeline {
+//     agent none
 
 
-    stages {
-        // stage("publish-pypi") {
-        //     agent {
-        //             docker { image 'python' }
-        //         }
-        //     steps {
-        //             script {
-        //                     withCredentials([
-        //                     usernamePassword(credentialsId: 'twine-login-info',
-        //                     usernameVariable: 'username',
-        //                     passwordVariable: 'password')
-        //                                     ]) {
+//     stages {
+//         stage("publish-pypi") {
+//             agent {
+//                     docker { image 'python' }
+//                 }
+//             steps {
+//                     script {
+//                             withCredentials([
+//                             usernamePassword(credentialsId: 'twine-login-info',
+//                             usernameVariable: 'username',
+//                             passwordVariable: 'password')
+//                                             ]) {
 
-        //                                         sh 'rm -rf dist'
-        //                                         sh ' pip3 install setuptools '
-        //                                         sh 'pip3 install pip install twine '
-        //                                         sh 'python setup.py sdist'
-        //                                         sh ' twine upload dist/* -u=${username} -p=${password}'
+//                                                 sh 'rm -rf dist'
+//                                                 sh ' pip3 install setuptools '
+//                                                 sh 'pip3 install pip install twine '
+//                                                 sh 'python setup.py sdist'
+//                                                 sh ' twine upload dist/* -u=${username} -p=${password}'
 
-        //                                         }
-        //                     }
+//                                                 }
+//                             }
             
-        //         }
-        // }
+//                 }
+//         }
 
-        stage("Download-data-build-test"){
+//         stage("Download-data-build-test"){
 
-            agent {
-                dockerfile true
-            }
+//             agent {
+//                 dockerfile true
+//             }
 
-            steps {
+//             steps {
 
-                        sh 'echo hi from docker 2'
-                        sh './run.sh'
+//                         sh 'echo hi from docker 2'
+//                         sh './run.sh'
 
 
-            }
+//             }
 
-        }
+//         }
 
-        post {
-        // Clean after build
+//         post {
+//         // Clean after build
 
-        always {
-            cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']])
-        }
-    }
+//         always {
+//             cleanWs(cleanWhenNotBuilt: false,
+//                     deleteDirs: true,
+//                     disableDeferredWipeout: true,
+//                     notFailBuild: true,
+//                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+//                                [pattern: '.propsfile', type: 'EXCLUDE']])
+//         }
+//     }
         
 
-    }
+//     }
 
     
 
+// }
+
+
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage("build"){
+            steps{
+                echo "this is build stage"
+            }
+        }
+        stage("test"){
+            steps{
+                echo "this is test stage"
+            }
+        }
+        stage("deploy"){
+            steps{
+                echo "this is deploy stage"
+            }
+        }
+    }
+    
 }
