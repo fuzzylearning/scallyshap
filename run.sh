@@ -1,4 +1,4 @@
 #!/bin/bash
 
-tox
+nox
 #python main.py
