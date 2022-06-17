@@ -3,29 +3,29 @@ pipeline {
 
 
     stages {
-        stage("publish-pypi") {
-            agent {
-                    docker { image 'python' }
-                }
-            steps {
-                    script {
-                            withCredentials([
-                            usernamePassword(credentialsId: 'twine-login-info',
-                            usernameVariable: 'username',
-                            passwordVariable: 'password')
-                                            ]) {
+        // stage("publish-pypi") {
+        //     agent {
+        //             docker { image 'python' }
+        //         }
+        //     steps {
+        //             script {
+        //                     withCredentials([
+        //                     usernamePassword(credentialsId: 'twine-login-info',
+        //                     usernameVariable: 'username',
+        //                     passwordVariable: 'password')
+        //                                     ]) {
 
-                                                sh 'rm -rf dist'
-                                                sh ' pip3 install setuptools '
-                                                sh 'pip3 install pip install twine '
-                                                sh 'python setup.py sdist'
-                                                sh ' twine upload dist/* -u=${username} -p=${password}'
+        //                                         sh 'rm -rf dist'
+        //                                         sh ' pip3 install setuptools '
+        //                                         sh 'pip3 install pip install twine '
+        //                                         sh 'python setup.py sdist'
+        //                                         sh ' twine upload dist/* -u=${username} -p=${password}'
 
-                                                }
-                            }
+        //                                         }
+        //                     }
             
-                }
-        }
+        //         }
+        // }
 
         stage("Download-data-build-test"){
 
