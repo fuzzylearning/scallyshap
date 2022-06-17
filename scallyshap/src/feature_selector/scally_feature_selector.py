@@ -6,11 +6,9 @@ from optuna.pruners import HyperbandPruner
 from optuna.samplers import TPESampler
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from utils.helper_funcs import (
-    _calc_best_estimator_grid_search,
-    _calc_best_estimator_optuna_univariate,
-    _calc_best_estimator_random_search,
-)
+from ....scallyshap.src.utils.helper_funcs import (
+    _calc_best_estimator_grid_search, _calc_best_estimator_optuna_univariate,
+    _calc_best_estimator_random_search)
 
 
 class ScallyShapFeatureSelector(BaseEstimator, TransformerMixin):

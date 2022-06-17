@@ -3,49 +3,62 @@ pipeline {
 
 
     stages {
-        
-        stage("Download-data"){
+        stage("publish-pypi") {
+            agent {
+                    docker { image 'python' }
+                }
+            steps {
+                    script {
+                            withCredentials([
+                            usernamePassword(credentialsId: 'twine-login-info',
+                            usernameVariable: 'username',
+                            passwordVariable: 'password')
+                                            ]) {
+
+                                                sh 'rm -rf dist'
+                                                sh ' pip3 install setuptools '
+                                                sh 'pip3 install pip install twine '
+                                                sh 'python setup.py sdist'
+                                                sh ' twine upload dist/* -u=${username} -p=${password}'
+
+                                                }
+                            }
+            
+                }
+        }
+
+        stage("Download-data-build-test"){
 
             agent {
-                docker{
-                    image 'ubuntu'
-                }
+                dockerfile true
             }
 
             steps {
 
-                sh 'apt-get install -y gnumeric'
+                        sh 'echo hi from docker 2'
+                        sh './run.sh'
+
 
             }
 
         }
-        stage("test"){
 
-            steps {
-                echo 'testing scallyshap appication...'
-                
-            }
+        post {
+        // Clean after build
+
+        always {
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
+        }
+    }
+        
+
+    }
 
     
-        stage("deploy"){
 
-            steps {
-                echo 'deploying scallyshap appication...'
-                
-            }
-
-        }
-    }
-
-    post{
-        always {
-
-        }
-        success {
-
-        }
-        failure {
-
-        }
-    }
 }
