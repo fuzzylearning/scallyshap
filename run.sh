@@ -1,4 +1,5 @@
 #!/bin/bash
 
-# nox
+nox
+
 #python main.py
