@@ -101,13 +101,14 @@ stage("publish-pypi") {
 
                                                  sh 'rm -rf dist'
                                                  sh 'cd ~  # Go to home directory'  
-                                                 sh 'pip install virtualenv'
+                                                 sh 'apt-get install python3-pip'
+                                                 sh 'pip3 install virtualenv'
                                                  sh 'virtualenv my-venv'
                                                  sh  'source my-venv/bin/activate'
-                                                 sh 'pip install  --upgrade --ignore-installed pip'
-                                                 sh 'pip install  --ignore-installed setuptools'
-                                                 sh 'pip install   --ignore-installed twine'
-                                                 sh 'python setup.py sdist'
+                                                 sh 'pip3 install  --upgrade --ignore-installed pip'
+                                                 sh 'pip3 install  --ignore-installed setuptools'
+                                                 sh 'pip3 install   --ignore-installed twine'
+                                                 sh 'python3 setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
 
                                                  }
