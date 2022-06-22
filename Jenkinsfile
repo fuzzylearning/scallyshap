@@ -99,7 +99,6 @@ stage("publish-pypi") {
                          }
                  }
              steps {
-                             {
 
                                                  sh 'apt-get install sudo -y'
                                                  sh 'python3 --version'
@@ -108,7 +107,6 @@ stage("publish-pypi") {
                                                  // sh '/usr/local/bin/python setup.py sdist'
                                                  // sh 'twine upload dist/* -u=${username} -p=${password}'
 
-                                                 }
             
                  }
             }
