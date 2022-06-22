@@ -101,7 +101,7 @@ stage("publish-pypi") {
                              passwordVariable: 'password')
                                              ]) {
 
-                                                 // sh 'python --version'
+                                                 sh 'chown -R user-id:group-id .'
                                                  sh '/usr/local/bin/python -m pip install  setuptools'
                                                  sh '/usr/local/bin/python -m pip install  twine'
                                                  sh '/usr/local/bin/python setup.py sdist'
