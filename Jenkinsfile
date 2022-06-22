@@ -101,7 +101,7 @@ stage("publish-pypi") {
                              passwordVariable: 'password')
                                              ]) {
 
-                                                 sh 'python --version'
+                                                 // sh 'python --version'
                                                  sh 'python -m pip install  setuptools'
                                                  sh 'python -m pip install  twine'
                                                  sh 'python setup.py sdist'
