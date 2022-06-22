@@ -5,6 +5,8 @@ COPY --chown=admin:admin . /app
 WORKDIR /app
 ENV -u username
 ENV -p password
+RUN pip install --upgrade build
+RUN python3 -m build
 RUN pip install twine
 ENTRYPOINT ["twine"]
 
