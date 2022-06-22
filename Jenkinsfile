@@ -65,11 +65,11 @@
 
 
 pipeline {
-    // withCredentials([
-    //                          usernamePassword(credentialsId: 'twine-login-info',
-    //                          usernameVariable: 'username',
-    //                          passwordVariable: 'password')
-    //                                          ]) 
+     withCredentials([
+                              usernamePassword(credentialsId: 'twine-login-info',
+                              usernameVariable: 'username',
+                              passwordVariable: 'password')
+                                              ]) 
 
     agent any
 
@@ -121,7 +121,7 @@ stage("build-image-pypi") {
              steps {
 
                                                  sh '''
-                                                 docker run --env-file ./.env build-image-pypi upload dist/* -u=$username -p=$password
+                                                 docker run --env VAR1 --env -u=${username} --env -p=${password} build-image-pypi upload dist/* -u=$username -p=$password
                                                  '''
 
             
