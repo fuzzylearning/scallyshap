@@ -65,12 +65,7 @@
 
 
 pipeline {
-     withCredentials([
-                              usernamePassword(credentialsId: 'twine-login-info',
-                              usernameVariable: 'username',
-                              passwordVariable: 'password')
-                                              ]) 
-
+    
     agent any
 
     stages {
@@ -117,6 +112,13 @@ stage("build-image-pypi") {
             }
     
     stage("build-container-pypi") {
+            
+     withCredentials([
+                              usernamePassword(credentialsId: 'twine-login-info',
+                              usernameVariable: 'username',
+                              passwordVariable: 'password')
+                                              ]) 
+
                  
              steps {
 
