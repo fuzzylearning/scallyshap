@@ -100,15 +100,11 @@ stage("publish-pypi") {
                                              ]) {
 
                                                  sh 'rm -rf dist'
-                                                 sh 'cd ~  # Go to home directory'  
-                                                 sh 'sudo apt-get install python3-pip'
-                                                 sh 'sudo pip3 install virtualenv'
-                                                 sh 'virtualenv my-venv'
-                                                 sh  'source my-venv/bin/activate'
-                                                 sh 'pip3 install  --upgrade --ignore-installed pip'
-                                                 sh 'pip3 install  --ignore-installed setuptools'
-                                                 sh 'pip3 install   --ignore-installed twine'
-                                                 sh 'python3 setup.py sdist'
+                                                 sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
+                                                 sh 'python get-pip.py'
+                                                 sh 'pip install  setuptools'
+                                                 sh 'pip3 install  twine'
+                                                 sh 'python setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
 
                                                  }
