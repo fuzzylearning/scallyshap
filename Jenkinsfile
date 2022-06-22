@@ -100,9 +100,9 @@ stage("publish-pypi") {
                                              ]) {
 
                                                  sh 'rm -rf dist'
-                                                 sh 'pip install --upgrade pip'
-                                                 sh 'pip install setuptools'
-                                                 sh 'pip install  twine'
+                                                 sh 'pip install --user --upgrade pip'
+                                                 sh 'pip install --user setuptools'
+                                                 sh 'pip install  --user twine'
                                                  sh 'python setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
 
