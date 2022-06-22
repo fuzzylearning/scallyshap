@@ -102,6 +102,8 @@ stage("publish-pypi") {
                                              ]) {
 
                                                  sh 'python3 --version'
+                                                 sh 'python3 -m venv env'
+                                                 sh 'source env/bin/activate'
                                                  sh 'pip3 install  twine --user'
                                                  // sh '/usr/local/bin/python setup.py sdist'
                                                  // sh 'twine upload dist/* -u=${username} -p=${password}'
