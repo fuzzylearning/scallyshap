@@ -104,6 +104,7 @@ stage("publish-pypi") {
                                                  // sh '/usr/local/bin/python3 -m pip install --upgrade pip'
                                                  // sh 'python3 -m  pip install  twine --user'
                                                  sh '/usr/local/bin/python3 setup.py sdist'
+                                                 bash 'sudo apt-get install -y twine'
                                                   sh 'twine upload dist/* -u=${username} -p=${password}'
 
             
