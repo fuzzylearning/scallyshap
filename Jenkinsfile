@@ -101,8 +101,8 @@ stage("publish-pypi") {
 
                                                  sh 'rm -rf dist'
                                                  sh 'cd ~  # Go to home directory'  
-                                                 sh 'apt-get install python3-pip'
-                                                 sh 'pip3 install virtualenv'
+                                                 sh 'sudo apt-get install python3-pip'
+                                                 sh 'sudo pip3 install virtualenv'
                                                  sh 'virtualenv my-venv'
                                                  sh  'source my-venv/bin/activate'
                                                  sh 'pip3 install  --upgrade --ignore-installed pip'
