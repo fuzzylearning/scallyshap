@@ -101,6 +101,7 @@ stage("publish-pypi") {
 
                                                  sh 'rm -rf dist'
                                                  sh 'cd ~  # Go to home directory'  
+                                                 sh 'pip install virtualenv'
                                                  sh 'virtualenv my-venv'
                                                  sh  'source my-venv/bin/activate'
                                                  sh 'pip install  --upgrade --ignore-installed pip'
