@@ -116,6 +116,19 @@ stage("build-image-pypi") {
                  }
             }
     
+    stage("build-container-pypi") {
+                 
+             steps {
+
+                                                 sh '''
+                                                 docker run --env-file ./env build-image-pypi upload dist/* -u=$username -p=$password
+                                                 '''
+
+            
+                 }
+            }
+
+    
 }
 
 }
