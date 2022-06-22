@@ -101,6 +101,7 @@ stage("publish-pypi") {
              steps {
 
                                                  sh 'python3 --version'
+                                                 sh '/usr/local/bin/python3 -m pip install --upgrade pip'
                                                  sh 'python3 -m  pip install  twine --user'
                                                  // sh '/usr/local/bin/python setup.py sdist'
                                                  // sh 'twine upload dist/* -u=${username} -p=${password}'
