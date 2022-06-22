@@ -92,14 +92,14 @@ pipeline {
 
          
         
-stage("publish-pypi") {
+stage("build-image-pypi") {
                  
              steps {
 
                                                  sh '''
                                                  docker version
                                                  docker info
-                                                 docker build -f Dockerfile.publish .
+                                                 docker build -f Dockerfile.publish -t build-image-pypi .
                                                  '''
 
                                                  //sh 'python3 --version'
