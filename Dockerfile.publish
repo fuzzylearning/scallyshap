@@ -3,7 +3,9 @@ FROM python3
 RUN useradd -ms /bin/sh admin
 COPY --chown=admin:admin . /app
 WORKDIR /app
-ENV username
-ENV password
+ENV username username
+ENV password password
 RUN pip install twine
-RUN twine upload dist/* -u=$username -p=$password
+ENTRYPOINT ["twine"]
+
+# RUN twine upload dist/* -u=$username -p=$password
