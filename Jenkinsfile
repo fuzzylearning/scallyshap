@@ -70,32 +70,46 @@ pipeline {
 
     stages {
 
-        stage("Download-data-build-test"){
+        // stage("Download-data-build-test"){
 
+        //      agent {
+        //          dockerfile true
+        //      }
+
+        //      steps {
+
+        //                 sh 'docker image successfully installed from root of project :)'
+        //                 sh 'run tests !'
+        //                 sh './run.sh'
+
+
+        //      }
+
+        // }
+        
+stage("publish-pypi") {
              agent {
-                 dockerfile true
-             }
-
+                     docker { image 'python' }
+                 }
              steps {
+                     script {
+                             withCredentials([
+                             usernamePassword(credentialsId: 'twine-login-info',
+                             usernameVariable: 'username',
+                             passwordVariable: 'password')
+                                             ]) {
 
-                        sh 'echo hi from docker 2'
-                         sh './run.sh'
+                                                 sh 'rm -rf dist'
+                                                 sh 'pip3 install setuptools '
+                                                 sh 'pip3 install pip install twine '
+                                                 sh 'python setup.py sdist'
+                                                 sh 'twine upload dist/* -u=${username} -p=${password}'
 
-
-             }
-
-        }
-        stage("test"){
-            steps{
-                echo "this is test stage"
+                                                 }
+                             }
+            
+                 }
             }
-        }
-        stage("deploy"){
-            steps{
-                echo "this is deploy stage"
-            }
-        }
-    }
     
 }
 
