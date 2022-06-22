@@ -1,12 +1,11 @@
 
 FROM python
 RUN useradd -ms /bin/sh admin
-COPY --chown=admin:admin . /app
-WORKDIR /app
+COPY --chown=admin:admin . /scallshap
+WORKDIR /scallshap
 ENV -u username
 ENV -p password
 RUN pip install --upgrade build
-WORKDIR /app/scallshap
 RUN python -m build
 RUN pip install twine
 ENTRYPOINT ["twine"]
