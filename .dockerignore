@@ -9,7 +9,6 @@ build/*
 .env/*
 logs/
 .gits
-*.md
 .cache
 .tox
 data/*
