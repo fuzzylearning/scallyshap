@@ -102,9 +102,9 @@ stage("publish-pypi") {
                                              ]) {
 
                                                  // sh 'python --version'
-                                                 sh 'python -m pip install  setuptools'
-                                                 sh 'python -m pip install  twine'
-                                                 sh 'python setup.py sdist'
+                                                 sh '/usr/local/bin/python -m pip install  setuptools'
+                                                 sh '/usr/local/bin/python -m pip install  twine'
+                                                 sh '/usr/local/bin/python setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
 
                                                  }
