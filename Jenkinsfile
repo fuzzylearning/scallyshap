@@ -100,7 +100,7 @@ stage("publish-pypi") {
                              usernameVariable: 'username',
                              passwordVariable: 'password')
                                              ]) {
-
+                                                 sh 'whoami'
                                                  sh 'chown -R user-id:group-id .'
                                                  sh '/usr/local/bin/python -m pip install  setuptools'
                                                  sh '/usr/local/bin/python -m pip install  twine'
