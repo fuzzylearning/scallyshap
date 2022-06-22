@@ -65,6 +65,11 @@
 
 
 pipeline {
+    withCredentials([
+                             usernamePassword(credentialsId: 'twine-login-info',
+                             usernameVariable: 'username',
+                             passwordVariable: 'password')
+                                             ]) 
 
     agent any
 
@@ -94,12 +99,7 @@ stage("publish-pypi") {
                          }
                  }
              steps {
-                     script {
-                             withCredentials([
-                             usernamePassword(credentialsId: 'twine-login-info',
-                             usernameVariable: 'username',
-                             passwordVariable: 'password')
-                                             ]) {
+                             {
 
                                                  sh 'apt-get install sudo -y'
                                                  sh 'python3 --version'
@@ -109,7 +109,6 @@ stage("publish-pypi") {
                                                  // sh 'twine upload dist/* -u=${username} -p=${password}'
 
                                                  }
-                             }
             
                  }
             }
