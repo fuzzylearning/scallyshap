@@ -89,7 +89,10 @@ pipeline {
         
 stage("publish-pypi") {
              agent {
-                     docker { image 'python' }
+                     docker { 
+                            image 'python:3'
+                            label 'my-build-agent'
+                         }
                  }
              steps {
                      script {
@@ -99,9 +102,9 @@ stage("publish-pypi") {
                              passwordVariable: 'password')
                                              ]) {
 
-                                                 sh 'useradd -ms /bin/sh admin'
-                                                 sh 'pip install  setuptools'
-                                                 sh 'pip3 install  twine'
+                                                 sh 'python --version'
+                                                 sh 'python -m pip install  setuptools'
+                                                 sh 'python -m pip install  twine'
                                                  sh 'python setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
 
