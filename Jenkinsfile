@@ -100,11 +100,10 @@ stage("publish-pypi") {
                                              ]) {
 
                                                  sh 'rm -rf dist'
-                                                 sh 'pip3 install setuptools '
-                                                 sh 'pip3 install pip install twine '
+                                                 sh 'python -m pip3 install setuptools '
+                                                 sh 'python -m pip3 install pip install twine '
                                                  sh 'python setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
-                                                 sh 'publish to pypi successfully finished :)'
 
                                                  }
                              }
