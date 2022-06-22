@@ -100,15 +100,11 @@ stage("publish-pypi") {
                              usernameVariable: 'username',
                              passwordVariable: 'password')
                                              ]) {
-                                                 sh 'su -'
-                                                 sh 'apt-get install sudo -y'
-                                                 sh 'sudo -i'
-                                                 sh 'whoami'
-                                                 sh 'chown -R user-id:group-id .'
-                                                 sh '/usr/local/bin/python -m pip install  setuptools'
-                                                 sh '/usr/local/bin/python -m pip install  twine'
-                                                 sh '/usr/local/bin/python setup.py sdist'
-                                                 sh 'twine upload dist/* -u=${username} -p=${password}'
+
+                                                 sh 'python3 --version'
+                                                 // sh '/usr/local/bin/python -m pip install  twine'
+                                                 // sh '/usr/local/bin/python setup.py sdist'
+                                                 // sh 'twine upload dist/* -u=${username} -p=${password}'
 
                                                  }
                              }
