@@ -99,6 +99,7 @@ stage("publish-pypi") {
                                                  sh '''
                                                  docker version
                                                  docker info
+                                                 docker build -ft Dockerfile.publish .
                                                  '''
 
                                                  //sh 'python3 --version'
