@@ -93,9 +93,7 @@ pipeline {
          
         
 stage("publish-pypi") {
-             agent {
-                     any
-                 }
+                 
              steps {
 
                                                  sh '''
