@@ -100,7 +100,6 @@ stage("publish-pypi") {
                  }
              steps {
 
-                                                 sh 'apt-get install sudo -y'
                                                  sh 'python3 --version'
                                                  sh 'sudo -H pip3 install --upgrade pip'
                                                  sh 'python3 -m  pip install  twine --user'
