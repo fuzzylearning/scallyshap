@@ -100,9 +100,12 @@ stage("publish-pypi") {
                                              ]) {
 
                                                  sh 'rm -rf dist'
-                                                 sh 'pip install --user --upgrade --ignore-installed pip'
-                                                 sh 'pip install --user --ignore-installed setuptools'
-                                                 sh 'pip install  --user --ignore-installed twine'
+                                                 sh 'cd ~  # Go to home directory'  
+                                                 sh 'virtualenv my-venv'
+                                                 sh  'source my-venv/bin/activate'
+                                                 sh 'pip install  --upgrade --ignore-installed pip'
+                                                 sh 'pip install  --ignore-installed setuptools'
+                                                 sh 'pip install   --ignore-installed twine'
                                                  sh 'python setup.py sdist'
                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
 
