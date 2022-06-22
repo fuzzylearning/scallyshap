@@ -1,5 +1,5 @@
-// pipeline {
-//     agent none
+ // pipeline {
+ //    agent none
 
 
 //     stages {
@@ -70,10 +70,20 @@ pipeline {
 
     stages {
 
-        stage("build"){
-            steps{
-                echo "this is build stage"
-            }
+        stage("Download-data-build-test"){
+
+             agent {
+                 dockerfile true
+             }
+
+             steps {
+
+                        sh 'echo hi from docker 2'
+                         sh './run.sh'
+
+
+             }
+
         }
         stage("test"){
             steps{
@@ -88,3 +98,4 @@ pipeline {
     }
     
 }
+
