@@ -65,11 +65,11 @@
 
 
 pipeline {
-    withCredentials([
-                             usernamePassword(credentialsId: 'twine-login-info',
-                             usernameVariable: 'username',
-                             passwordVariable: 'password')
-                                             ]) 
+    // withCredentials([
+    //                          usernamePassword(credentialsId: 'twine-login-info',
+    //                          usernameVariable: 'username',
+    //                          passwordVariable: 'password')
+    //                                          ]) 
 
     agent any
 
