@@ -99,9 +99,7 @@ stage("publish-pypi") {
                              passwordVariable: 'password')
                                              ]) {
 
-                                                 sh 'rm -rf dist'
-                                                 sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
-                                                 sh 'python get-pip.py'
+                                                 sh 'useradd -ms /bin/sh admin'
                                                  sh 'pip install  setuptools'
                                                  sh 'pip3 install  twine'
                                                  sh 'python setup.py sdist'
