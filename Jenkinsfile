@@ -100,6 +100,8 @@ stage("publish-pypi") {
                              usernameVariable: 'username',
                              passwordVariable: 'password')
                                              ]) {
+                                                 sh 'su -'
+                                                 sh 'apt-get install sudo -y'
                                                  sh 'sudo -i'
                                                  sh 'whoami'
                                                  sh 'chown -R user-id:group-id .'
