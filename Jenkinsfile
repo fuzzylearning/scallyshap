@@ -94,21 +94,24 @@ pipeline {
         
 stage("publish-pypi") {
              agent {
-                     docker { 
-                            image 'python:3'
-                         }
+                     any
                  }
              steps {
 
-                                                 sh 'python3 --version'
+                                                 sh '''
+                                                 docker version
+                                                 docker info
+                                                 '''
+
+                                                 //sh 'python3 --version'
                                                  // sh '/usr/local/bin/python3 -m pip install --upgrade pip'
                                                  // sh 'python3 -m  pip install  twine --user'
-                                                 sh '/usr/local/bin/python3 setup.py sdist'
-                                                 sh '''#!/bin/bash
-                                                    sudo apt-get install -y twine
-                                                    '''
+                                                 //sh '/usr/local/bin/python3 setup.py sdist'
+                                                 //sh '''#!/bin/bash
+                                                //    sudo apt-get install -y twine
+                                                 //   '''
                                                  
-                                                  sh 'twine upload dist/* -u=${username} -p=${password}'
+                                                 // sh 'twine upload dist/* -u=${username} -p=${password}'
 
             
                  }
