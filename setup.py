@@ -1,5 +1,5 @@
 import sys
-sys.path.append("./scallyshap/src")
+sys.path.append("./scallyshap/scallyshap/src/")
 from setuptools import find_packages, setup
 from version import __version__
 
