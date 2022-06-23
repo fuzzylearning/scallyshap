@@ -5,7 +5,7 @@ COPY --chown=admin:admin . /scallyshap
 WORKDIR /scallyshap
 ENV -u username
 ENV -p password
-ENV PYTHONPATH="${PYTHONPATH}:/scallyshap"
+ENV PYTHONPATH="${PYTHONPATH}:."
 RUN pip install --upgrade build
 RUN ls -a
 RUN echo $PYTHONPATH
