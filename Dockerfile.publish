@@ -12,6 +12,7 @@ RUN echo $PYTHONPATH
 RUN echo $PATH
 RUN python -m build
 RUN pip install twine
+
 ENTRYPOINT ["twine"]
 
 # RUN twine upload dist/* -u=$username -p=$password
