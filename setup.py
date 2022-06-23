@@ -1,5 +1,5 @@
 from setuptools import find_packages, setup
-from version import __version__
+from .scallyshap.src.version import __version__
 
 __version__ = "0.0.4"
 
