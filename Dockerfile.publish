@@ -9,6 +9,7 @@ ENV PYTHONPATH="${PYTHONPATH}:./"
 RUN pip install --upgrade build
 RUN ls -a
 RUN echo $PYTHONPATH
+RUN echo $PATH
 RUN python -m build
 RUN pip install twine
 ENTRYPOINT ["twine"]
