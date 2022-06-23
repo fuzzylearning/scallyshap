@@ -7,6 +7,7 @@ ENV -u username
 ENV -p password
 ENV PYTHONPATH "${PYTHONPATH}:./scallshap"
 RUN pip install --upgrade build
+RUN ls -a
 RUN python -m build
 RUN pip install twine
 ENTRYPOINT ["twine"]
